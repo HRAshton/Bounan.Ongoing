@@ -5,8 +5,6 @@ interface Config {
     loanApiToken: string;
     registerVideosFunctionName: string;
     videoRegisteredTopicArn: string;
-    retriesMax: string;
-    retriesDelayMs: string;
 }
 
 export const config: Config = configFile;
@@ -22,10 +20,4 @@ if (!config.registerVideosFunctionName) {
 }
 if (!config.videoRegisteredTopicArn) {
     throw new Error('videoRegisteredTopicArn is required');
-}
-if (!config.retriesMax) {
-    throw new Error('retriesMax is required');
-}
-if (!config.retriesDelayMs) {
-    throw new Error('retriesDelayMs is required');
 }

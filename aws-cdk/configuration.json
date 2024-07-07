@@ -3,7 +3,5 @@
   "loanApiToken": "",
   "registerVideosFunctionName": "",
   "videoRegisteredTopicArn": "",
-  "retriesMax": "",
-  "retriesDelayMs": "",
   "DUMMY": ""
 }

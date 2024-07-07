@@ -1,6 +1,7 @@
 ﻿import { fromJson } from './models';
-import { Context, SNSEvent } from 'aws-lambda';
+import { SNSEvent } from 'aws-lambda';
 import { process } from './processor';
+import { retry } from '../../shared/helpers/retry';
 
 const processMessage = async (message: string): Promise<void> => {
     console.log('Processing message: ', message);
@@ -11,12 +12,11 @@ const processMessage = async (message: string): Promise<void> => {
     console.log('Message processed');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handler = async (event: SNSEvent, context: Context): Promise<void> => {
+export const handler = async (event: SNSEvent): Promise<void> => {
     console.log('Processing event: ', JSON.stringify(event));
     for (const record of event.Records) {
         console.log('Processing record: ', record?.Sns?.MessageId);
-        await processMessage(record.Sns.Message);
+        await retry(async () => await processMessage(record.Sns.Message), 3, () => true);
     }
 
     console.info('done');
