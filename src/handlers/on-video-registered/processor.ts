@@ -16,16 +16,24 @@ const checkIfCompleted = async (
         if (isOutdated) {
             console.log('Anime outdated: ', outdatedDate, updatedAt, isOutdated);
             return true;
+        } else {
+            console.log('Anime is up to date: ', outdatedDate, updatedAt, isOutdated);
         }
+    } else {
+        console.log('Outdated check skipped: ', updatedAt);
     }
 
     const allEpisodesPresent = Math.max(...allEpisodes) - Math.min(...allEpisodes) + 1 === allEpisodes.size;
     if (!allEpisodesPresent) {
         console.warn('Some episodes are missing: ', allEpisodes);
         return false;
+    } else {
+        console.log('All episodes are present: ', allEpisodes);
     }
 
     const animeInfo = await getAnimeInfo(animeKey.MyAnimeListId);
+    console.log('Anime info: ', animeInfo);
+
     const expectedLastEpisode: number | undefined = animeInfo?.episodes;
 
     return !!expectedLastEpisode && expectedLastEpisode <= Math.max(...allEpisodes);
