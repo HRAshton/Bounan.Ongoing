@@ -101,7 +101,7 @@ export class AniManCdkStack extends Stack {
 
     private setSchedule(registerVideosLambda: lambda.Function): void {
         new eventBridge.Rule(this, 'ScheduleRule', {
-            schedule: eventBridge.Schedule.rate(Duration.hours(1)),
+            schedule: eventBridge.Schedule.rate(Duration.hours(3)),
             targets: [new eventBridgeTargets.LambdaFunction(registerVideosLambda)],
         });
     }
