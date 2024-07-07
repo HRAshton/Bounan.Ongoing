@@ -17,7 +17,7 @@ const onRegistered = async (message: VideoRegisteredNotification) => {
 process.env.AWS_PROFILE = 'hra';
 
 const main = async () => {
-    const myAnimeListId = 60;
+    const myAnimeListId = 22101;
     const dub = 'AniLibria.TV';
 
     console.log('TEST: Episodes should be registered on the first run');
@@ -124,6 +124,18 @@ const main = async () => {
         ],
     });
     console.warn('Expected: 2 episodes registered for 1st title, 1 episode for 2nd title\n\n');
+
+    console.log('TEST: When we add last episode, the anime should be deleted');
+    await onRegistered({
+        Items: Array.from({ length: 24 }, (_, i) => ({
+            VideoKey: {
+                MyAnimeListId: myAnimeListId,
+                Dub: dub,
+                Episode: i + 1,
+            },
+        })),
+    });
+    console.warn('Expected: Anime deleted\n\n');
 }
 
 main();

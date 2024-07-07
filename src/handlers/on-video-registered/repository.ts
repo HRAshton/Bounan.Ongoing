@@ -1,4 +1,4 @@
-﻿import { PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+﻿import { DeleteCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient, getAnimeKey } from '../../shared/repository';
 import { AnimeKey } from '../../models/anime-entity';
 import { config } from '../../config/config';
@@ -25,9 +25,10 @@ export const addEpisodes = async (animeKey: AnimeKey, episodes: Set<number>): Pr
     const command = new UpdateCommand({
         TableName: config.database.tableName,
         Key: { AnimeKey: getAnimeKey(animeKey) },
-        UpdateExpression: 'ADD Episodes :episodes',
+        UpdateExpression: 'ADD Episodes :episodes SET UpdatedAt = :updatedAt',
         ExpressionAttributeValues: {
             ':episodes': episodes,
+            ':updatedAt': new Date().toISOString(),
         },
         ReturnValues: 'NONE',
         ConditionExpression: 'attribute_exists(AnimeKey)',
@@ -35,4 +36,15 @@ export const addEpisodes = async (animeKey: AnimeKey, episodes: Set<number>): Pr
 
     const result = await docClient.send(command);
     console.log('Added episodes: ' + JSON.stringify(result));
+}
+
+export const deleteAnime = async (animeKey: AnimeKey): Promise<void> => {
+    const command = new DeleteCommand({
+        TableName: config.database.tableName,
+        Key: { AnimeKey: getAnimeKey(animeKey) },
+        ConditionExpression: 'attribute_exists(AnimeKey)',
+    });
+
+    const result = await docClient.send(command);
+    console.log('Deleted anime: ' + JSON.stringify(result));
 }

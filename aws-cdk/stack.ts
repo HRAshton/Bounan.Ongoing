@@ -1,5 +1,7 @@
 ﻿import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as eventBridge from 'aws-cdk-lib/aws-events';
+import * as eventBridgeTargets from 'aws-cdk-lib/aws-events-targets';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
@@ -22,10 +24,16 @@ export class AniManCdkStack extends Stack {
 
         const functions = this.createLambdas(table, logGroup);
 
-        // const videoRegisteredTopic = sns.Topic.fromTopicArn(
-        //     this, 'VideoRegisteredSnsTopic', config.videoRegisteredTopicArn);
-        // videoRegisteredTopic.addSubscription(
-        //     new subs.LambdaSubscription(functions.get(LambdaHandler.OnVideoRegistered)!));
+        const videoRegisteredTopic = sns.Topic.fromTopicArn(
+            this, 'VideoRegisteredSnsTopic', config.videoRegisteredTopicArn);
+        videoRegisteredTopic.addSubscription(
+            new subs.LambdaSubscription(functions.get(LambdaHandler.OnVideoRegistered)!));
+
+        const registerVideosLambda = lambda.Function.fromFunctionName(
+            this, 'RegisterVideosLambda', config.registerVideosFunctionName);
+        registerVideosLambda.grantInvoke(functions.get(LambdaHandler.OnSchedule)!);
+
+        this.setSchedule(functions.get(LambdaHandler.OnSchedule)!);
 
         this.out('Config', JSON.stringify(config));
         this.out('TableName', table.tableName);
@@ -78,6 +86,8 @@ export class AniManCdkStack extends Stack {
                     LOAN_API_TOKEN: config.loanApiToken,
                     LOAN_API_MAX_CONCURRENT_REQUESTS: '2',
                     DATABASE_TABLE_NAME: filesTable.tableName,
+                    ANIMAN_REGISTER_VIDEOS_FUNCTION_NAME: config.registerVideosFunctionName,
+                    PROCESSING_OUTDATED_PERIOD_HOURS: '720',
                 },
                 timeout: Duration.seconds(30),
             });
@@ -89,6 +99,13 @@ export class AniManCdkStack extends Stack {
         return functions;
     }
 
+    private setSchedule(registerVideosLambda: lambda.Function): void {
+        new eventBridge.Rule(this, 'ScheduleRule', {
+            schedule: eventBridge.Schedule.rate(Duration.hours(1)),
+            targets: [new eventBridgeTargets.LambdaFunction(registerVideosLambda)],
+        });
+    }
+
     private out(key: string, value: object | string): void {
         const output = typeof value === 'string' ? value : JSON.stringify(value);
         new CfnOutput(this, key, { value: output });
@@ -97,5 +114,5 @@ export class AniManCdkStack extends Stack {
 
 enum LambdaHandler {
     OnVideoRegistered = 'on-video-registered',
-    // OnSchedule = 'on-schedule',
+    OnSchedule = 'on-schedule',
 }

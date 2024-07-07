@@ -11,13 +11,13 @@ export const getAnimeKey = (animeKey: AnimeKey): string => {
     return `${animeKey.MyAnimeListId}#${animeKey.Dub}`;
 }
 
-export const getEpisodes = async (animeKey: AnimeKey): Promise<Pick<AnimeEntity, 'Episodes'>> => {
+export const getEpisodes = async (animeKey: AnimeKey): Promise<Pick<AnimeEntity, 'Episodes' | 'UpdatedAt'>> => {
     const command = new GetCommand({
         TableName: config.database.tableName,
         Key: { AnimeKey: getAnimeKey(animeKey) },
-        AttributesToGet: ['Episodes'],
+        AttributesToGet: ['Episodes', 'UpdatedAt'],
     });
 
     const response = await docClient.send(command);
-    return response.Item as Pick<AnimeEntity, 'Episodes'>;
+    return response.Item as Pick<AnimeEntity, 'Episodes' | 'UpdatedAt'>;
 }
