@@ -2,14 +2,17 @@
 
 export const SHIKIMORI_BASE_URL = 'https://shikimori.one';
 
-export const getAnimeInfo = (myAnimeListId: number): Promise<ShikiAnimeInfo> => {
-    return fetch(
+export const getAnimeInfo = async (myAnimeListId: number): Promise<ShikiAnimeInfo> => {
+    await new Promise(resolve => setTimeout(resolve, 100)); // Avoid rate limiting
+
+    const response = await fetch(
         `${SHIKIMORI_BASE_URL}/api/animes/${myAnimeListId}`,
         {
             headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': 'Bounan.Ongoing',
             },
-        })
-        .then(response => response.json());
+        });
+
+    return await response.json();
 }
