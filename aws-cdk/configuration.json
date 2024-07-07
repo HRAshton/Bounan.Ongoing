@@ -1,7 +1,7 @@
 ﻿{
   "alertEmail": "",
   "loanApiToken": "",
-  "registerVideoFunctionName": "",
+  "registerVideosFunctionName": "",
   "videoRegisteredTopicArn": "",
   "retriesMax": "",
   "retriesDelayMs": "",

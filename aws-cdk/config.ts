@@ -3,7 +3,7 @@
 interface Config {
     alertEmail: string;
     loanApiToken: string;
-    registerVideoFunctionName: string;
+    registerVideosFunctionName: string;
     videoRegisteredTopicArn: string;
     retriesMax: string;
     retriesDelayMs: string;
@@ -17,7 +17,7 @@ if (!config.alertEmail) {
 if (!config.loanApiToken) {
     throw new Error('loanApiToken is required');
 }
-if (!config.registerVideoFunctionName) {
+if (!config.registerVideosFunctionName) {
     throw new Error('registerVideoFunctionName is required');
 }
 if (!config.videoRegisteredTopicArn) {
