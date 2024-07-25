@@ -44,6 +44,8 @@ export class AniManCdkStack extends Stack {
         return new dynamodb.Table(this, 'Table', {
             partitionKey: { name: 'AnimeKey', type: dynamodb.AttributeType.STRING },
             removalPolicy: RemovalPolicy.RETAIN,
+            readCapacity: 1,
+            writeCapacity: 1,
         });
     }
 
