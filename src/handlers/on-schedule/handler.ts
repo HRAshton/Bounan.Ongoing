@@ -1,12 +1,11 @@
 ﻿import { EventBridgeEvent } from 'aws-lambda';
-import { getAll } from './repository';
+import { deleteAnime, getAll } from './repository';
 import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-client';
 import { AnimeEntity } from '../../models/anime-entity';
 import { VideoKey } from '../../common/ts/interfaces';
 import { getExistingVideos, setToken } from '../../loan-api/src/animan-loan-api-client';
 import { config } from '../../config/config';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
-import { deleteAnime } from '../on-video-registered/repository';
 
 setToken(config.loanApiConfig.token);
 

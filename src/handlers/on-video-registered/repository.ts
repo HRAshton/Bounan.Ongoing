@@ -37,14 +37,3 @@ export const addEpisodes = async (animeKey: AnimeKey, episodes: Set<number>): Pr
     const result = await docClient.send(command);
     console.log('Added episodes: ' + JSON.stringify(result));
 }
-
-export const deleteAnime = async (animeKey: AnimeKey): Promise<void> => {
-    const command = new DeleteCommand({
-        TableName: config.database.tableName,
-        Key: { AnimeKey: getAnimeKey(animeKey) },
-        ConditionExpression: 'attribute_exists(AnimeKey)',
-    });
-
-    const result = await docClient.send(command);
-    console.log('Deleted anime: ' + JSON.stringify(result));
-}
