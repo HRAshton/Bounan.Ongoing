@@ -5,6 +5,8 @@ import { AnimeEntity } from '../../models/anime-entity';
 import { VideoKey } from '../../common/ts/interfaces';
 import { getExistingVideos, setToken } from '../../loan-api/src/animan-loan-api-client';
 import { config } from '../../config/config';
+import { checkIfCompleted } from '../../shared/helpers/is-completed';
+import { deleteAnime } from '../on-video-registered/repository';
 
 setToken(config.loanApiConfig.token);
 
@@ -18,7 +20,7 @@ const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
     return newVideos;
 }
 
-const process = async (): Promise<void> => {
+const registerNewVideos = async (): Promise<void> => {
     const registeredAnimes = await getAll();
     console.log('Registered animes: ', JSON.stringify(registeredAnimes));
 
@@ -37,6 +39,26 @@ const process = async (): Promise<void> => {
 
     await sendRegisterVideosRequest(newVideos);
 };
+
+const cleanupCompletedSeries = async (): Promise<void> => {
+    const registeredAnimes = await getAll();
+
+    for (const anime of registeredAnimes) {
+        const isCompleted = await checkIfCompleted(anime.MyAnimeListId, new Date(anime.UpdatedAt), anime.Episodes);
+        if (isCompleted) {
+            await deleteAnime(anime);
+            console.info(`Anime was deleted: ${anime.MyAnimeListId}`);
+        }
+    }
+}
+
+const process = async (): Promise<void> => {
+    console.log('Processing videos');
+    await registerNewVideos();
+
+    console.log('Cleaning up completed series');
+    await cleanupCompletedSeries();
+}
 
 export const handler = async (event: EventBridgeEvent<never, never>): Promise<void> => {
     console.log('Processing event: ', JSON.stringify(event));
