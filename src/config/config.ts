@@ -3,7 +3,7 @@
 // process.env.LOAN_API_MAX_CONCURRENT_REQUESTS = '';
 // process.env.DATABASE_TABLE_NAME = '';
 // process.env.ANIMAN_REGISTER_VIDEOS_FUNCTION_NAME = '';
-process.env.PROCESSING_OUTDATED_PERIOD_HOURS = '720'; // 30 days
+// process.env.PROCESSING_OUTDATED_PERIOD_HOURS = '720'; // 30 days
 
 interface AniManConfig {
     registerVideosLambdaName: string;
