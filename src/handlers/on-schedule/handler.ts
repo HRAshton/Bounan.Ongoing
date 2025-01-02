@@ -14,10 +14,14 @@ const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
     const loanApiVideos = await getExistingVideos(anime.MyAnimeListId, anime.Dub);
     console.log('Loan API videos: ', JSON.stringify(loanApiVideos));
 
-    const newVideos = loanApiVideos.filter(x => !anime.Episodes.has(x.Episode));
+    const newVideos = loanApiVideos.filter(x => !anime.Episodes.has(x.episode));
     console.log('New videos: ', JSON.stringify(newVideos));
 
-    return newVideos;
+    return newVideos.map(x => ({
+        MyAnimeListId: x.myAnimeListId,
+        Dub: x.dub,
+        Episode: x.episode,
+    }));
 }
 
 const registerNewVideos = async (): Promise<void> => {
