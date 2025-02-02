@@ -1,4 +1,4 @@
-﻿import { DeleteCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+﻿import { PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient, getAnimeKey } from '../../shared/repository';
 import { AnimeKey } from '../../models/anime-entity';
 import { config } from '../../config/config';
