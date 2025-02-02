@@ -1,11 +1,4 @@
-﻿// process.env.AWS_PROFILE = '';
-// process.env.LOAN_API_TOKEN = '';
-// process.env.LOAN_API_MAX_CONCURRENT_REQUESTS = '';
-// process.env.DATABASE_TABLE_NAME = '';
-// process.env.ANIMAN_REGISTER_VIDEOS_FUNCTION_NAME = '';
-// process.env.PROCESSING_OUTDATED_PERIOD_HOURS = '720'; // 30 days
-
-import { fetchSsmValue } from '../common/ts/runtime/ssm-client';
+﻿import { fetchSsmValue } from '../common/ts/runtime/ssm-client';
 
 interface AniManConfig {
     registerVideosLambdaName: string;
