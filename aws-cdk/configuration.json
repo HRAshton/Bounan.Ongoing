@@ -2,6 +2,5 @@
   "alertEmail": "",
   "loanApiToken": "",
   "registerVideosFunctionName": "",
-  "videoRegisteredTopicArn": "",
-  "DUMMY": ""
+  "videoRegisteredTopicArn": ""
 }
