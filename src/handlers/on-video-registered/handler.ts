@@ -1,7 +1,7 @@
-﻿import { fromJson } from './models';
+﻿import { retry } from '../../common/ts/runtime/retry';
 import { SNSEvent } from 'aws-lambda';
+import { fromJson } from './models';
 import { process } from './processor';
-import { retry } from '../../shared/helpers/retry';
 
 const processMessage = async (message: string): Promise<void> => {
     console.log('Processing message: ', message);
