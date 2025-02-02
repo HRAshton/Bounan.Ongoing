@@ -40,8 +40,9 @@ export class OngoingCdkStack extends cfn.Stack {
         return new dynamodb.Table(this, 'Table', {
             partitionKey: { name: 'AnimeKey', type: dynamodb.AttributeType.STRING },
             removalPolicy: cfn.RemovalPolicy.RETAIN,
-            readCapacity: 1,
-            writeCapacity: 1,
+            billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            maxReadRequestUnits: 3,
+            maxWriteRequestUnits: 2,
         });
     }
 
