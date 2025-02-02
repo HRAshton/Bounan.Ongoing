@@ -5,7 +5,7 @@ import { config } from '../../config/config';
 
 export const addAnime = async (animeKey: AnimeKey, episodes: Set<number>): Promise<void> => {
     const command = new PutCommand({
-        TableName: config.database.tableName,
+        TableName: config.value.database.tableName,
         Item: {
             AnimeKey: getAnimeKey(animeKey),
             MyAnimeListId: animeKey.MyAnimeListId,
@@ -23,7 +23,7 @@ export const addAnime = async (animeKey: AnimeKey, episodes: Set<number>): Promi
 
 export const addEpisodes = async (animeKey: AnimeKey, episodes: Set<number>): Promise<void> => {
     const command = new UpdateCommand({
-        TableName: config.database.tableName,
+        TableName: config.value.database.tableName,
         Key: { AnimeKey: getAnimeKey(animeKey) },
         UpdateExpression: 'ADD Episodes :episodes SET UpdatedAt = :updatedAt',
         ExpressionAttributeValues: {

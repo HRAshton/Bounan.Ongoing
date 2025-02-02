@@ -5,6 +5,7 @@ import * as eventBridge from 'aws-cdk-lib/aws-events';
 import * as eventBridgeTargets from 'aws-cdk-lib/aws-events-targets';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as sns from 'aws-cdk-lib/aws-sns';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -12,6 +13,7 @@ import * as cw from 'aws-cdk-lib/aws-cloudwatch';
 import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions';
 
 import { Config, getConfig } from './config';
+import { Config as RuntimeConfig } from '../src/config/config';
 
 export class OngoingCdkStack extends cfn.Stack {
     constructor(scope: Construct, id: string, props?: cfn.StackProps) {
@@ -19,20 +21,17 @@ export class OngoingCdkStack extends cfn.Stack {
 
         const config = getConfig('bounan:');
 
-        const table = this.createTable();
-        const logGroup = this.createLogGroup();
-        const functions = this.createLambdas(table, logGroup, config);
-        this.setSchedule(functions.get(LambdaHandler.OnSchedule)!);
-        this.setErrorAlarm(logGroup, config);
-
         const videoRegisteredTopic = sns.Topic.fromTopicArn(
             this, 'VideoRegisteredSnsTopic', config.videoRegisteredTopicArn);
-        videoRegisteredTopic.addSubscription(
-            new subs.LambdaSubscription(functions.get(LambdaHandler.OnVideoRegistered)!));
-
         const registerVideosLambda = lambda.Function.fromFunctionName(
             this, 'RegisterVideosLambda', config.registerVideosFunctionName);
-        registerVideosLambda.grantInvoke(functions.get(LambdaHandler.OnSchedule)!);
+
+        const table = this.createTable();
+        const logGroup = this.createLogGroup();
+        const parameter = this.saveParameters(table, config);
+        const functions = this.createLambdas(table, logGroup, registerVideosLambda, videoRegisteredTopic, parameter);
+        this.setSchedule(functions[LambdaHandler.OnSchedule]);
+        this.setErrorAlarm(logGroup, config);
 
         this.out('Config', JSON.stringify(config));
     }
@@ -76,28 +75,30 @@ export class OngoingCdkStack extends cfn.Stack {
     private createLambdas(
         filesTable: dynamodb.Table,
         logGroup: logs.LogGroup,
-        config: Config,
-    ): Map<LambdaHandler, lambda.Function> {
-        const functions = new Map<LambdaHandler, lambda.Function>();
+        registerVideosLambda: lambda.IFunction,
+        videoRegisteredTopic: sns.ITopic,
+        parameter: ssm.StringParameter,
+    ): Record<LambdaHandler, lambda.Function> {
+        // @ts-expect-error - we know that the keys are the same
+        const functions: Record<LambdaHandler, lambda.Function> = {};
 
         Object.entries(LambdaHandler).forEach(([lambdaName, handlerName]) => {
             const func = new LlrtFunction(this, lambdaName, {
                 entry: `src/handlers/${handlerName}/handler.ts`,
                 handler: 'handler',
                 logGroup: logGroup,
-                environment: {
-                    LOAN_API_TOKEN: config.loanApiToken,
-                    LOAN_API_MAX_CONCURRENT_REQUESTS: '2',
-                    DATABASE_TABLE_NAME: filesTable.tableName,
-                    ANIMAN_REGISTER_VIDEOS_FUNCTION_NAME: config.registerVideosFunctionName,
-                    PROCESSING_OUTDATED_PERIOD_HOURS: '720',
-                },
                 timeout: cfn.Duration.seconds(30),
             });
 
             filesTable.grantReadWriteData(func);
-            functions.set(handlerName, func);
+            parameter.grantRead(func);
+
+            functions[handlerName] = func;
         });
+
+        registerVideosLambda.grantInvoke(functions[LambdaHandler.OnSchedule]);
+
+        videoRegisteredTopic.addSubscription(new subs.LambdaSubscription(functions[LambdaHandler.OnVideoRegistered]));
 
         return functions;
     }
@@ -106,6 +107,32 @@ export class OngoingCdkStack extends cfn.Stack {
         new eventBridge.Rule(this, 'ScheduleRule', {
             schedule: eventBridge.Schedule.rate(cfn.Duration.hours(3)),
             targets: [new eventBridgeTargets.LambdaFunction(registerVideosLambda)],
+        });
+    }
+
+    private saveParameters(
+        filesTable: dynamodb.Table,
+        config: Config,
+    ): ssm.StringParameter {
+        const value = {
+            animan: {
+                registerVideosLambdaName: config.registerVideosFunctionName,
+            },
+            loanApiConfig: {
+                token: config.loanApiToken,
+                maxConcurrentRequests: 2,
+            },
+            database: {
+                tableName: filesTable.tableName,
+            },
+            processing: {
+                outdatedPeriodHours: 720,
+            },
+        } as Required<RuntimeConfig>;
+
+        return new ssm.StringParameter(this, '/bounan/ongoing/runtime-config', {
+            parameterName: '/bounan/ongoing/runtime-config',
+            stringValue: JSON.stringify(value, null, 2),
         });
     }
 

@@ -5,7 +5,7 @@ import { config } from '../../config/config';
 
 export const getAll = async (): Promise<AnimeEntity[]> => {
     const command = new ScanCommand({
-        TableName: config.database.tableName,
+        TableName: config.value.database.tableName,
     });
 
     const response = await docClient.send(command);
@@ -14,7 +14,7 @@ export const getAll = async (): Promise<AnimeEntity[]> => {
 
 export const deleteAnime = async (animeKey: AnimeKey): Promise<void> => {
     const command = new DeleteCommand({
-        TableName: config.database.tableName,
+        TableName: config.value.database.tableName,
         Key: { AnimeKey: getAnimeKey(animeKey) },
         ConditionExpression: 'attribute_exists(AnimeKey)',
     });

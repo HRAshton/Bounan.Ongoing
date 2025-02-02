@@ -15,7 +15,7 @@ export const sendRegisterVideosRequest = async (videoKeys: VideoKey[]): Promise<
     console.log('Sending request: ', message);
 
     const result = await lambdaClient.send(new InvokeCommand({
-        FunctionName: config.animan.registerVideosLambdaName,
+        FunctionName: config.value.animan.registerVideosLambdaName,
         Payload: message,
     }));
     console.log('Request sent: ', result);

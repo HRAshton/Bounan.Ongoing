@@ -13,7 +13,7 @@ export const getAnimeKey = (animeKey: AnimeKey): string => {
 
 export const getEpisodes = async (animeKey: AnimeKey): Promise<Pick<AnimeEntity, 'Episodes' | 'UpdatedAt'>> => {
     const command = new GetCommand({
-        TableName: config.database.tableName,
+        TableName: config.value.database.tableName,
         Key: { AnimeKey: getAnimeKey(animeKey) },
         AttributesToGet: ['Episodes', 'UpdatedAt'],
     });

@@ -1,20 +1,14 @@
-﻿/* eslint @typescript-eslint/no-explicit-any: 0 */
-
-import { handler as videoRegistered } from './handlers/on-video-registered/handler';
+﻿import { handler as videoRegistered } from './handlers/on-video-registered/handler';
 import { VideoRegisteredNotification } from './common/ts/interfaces';
 
 const onRegistered = async (message: VideoRegisteredNotification) => {
     console.log('Processing message: ', message);
 
-    await videoRegistered(
-        // @ts-expect-error - we don't need to provide all the event properties
-        { Records: [{ Sns: { Message: JSON.stringify(message) } }] },
-        null as any);
+    // @ts-expect-error - we don't need to provide all the event properties
+    await videoRegistered({ Records: [{ Sns: { Message: JSON.stringify(message) } }] });
 
     console.log('Message processed');
 }
-
-process.env.AWS_PROFILE = 'hra';
 
 const main = async () => {
     const myAnimeListId = 22101;

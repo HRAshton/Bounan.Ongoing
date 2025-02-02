@@ -4,10 +4,8 @@ import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-clien
 import { AnimeEntity } from '../../models/anime-entity';
 import { VideoKey } from '../../common/ts/interfaces';
 import { getExistingVideos, setToken } from '../../loan-api/src/animan-loan-api-client';
-import { config } from '../../config/config';
+import { config, initConfig } from '../../config/config';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
-
-setToken(config.loanApiConfig.token);
 
 const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
     const loanApiVideos = await getExistingVideos(anime.MyAnimeListId, anime.Dub);
@@ -65,6 +63,8 @@ const process = async (): Promise<void> => {
 
 export const handler = async (event: EventBridgeEvent<never, never>): Promise<void> => {
     console.log('Processing event: ', JSON.stringify(event));
+    await initConfig();
+    setToken(config.value.loanApiConfig.token);
     await process();
     console.info('done');
 };
