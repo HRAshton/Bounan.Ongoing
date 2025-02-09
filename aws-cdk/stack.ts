@@ -106,7 +106,7 @@ export class OngoingCdkStack extends cfn.Stack {
 
     private setSchedule(registerVideosLambda: lambda.Function): void {
         new eventBridge.Rule(this, 'ScheduleRule', {
-            schedule: eventBridge.Schedule.rate(cfn.Duration.hours(3)),
+            schedule: eventBridge.Schedule.expression('cron(0 */3 * * ? *)'),
             targets: [new eventBridgeTargets.LambdaFunction(registerVideosLambda)],
         });
     }
