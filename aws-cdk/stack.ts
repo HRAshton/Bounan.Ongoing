@@ -41,8 +41,8 @@ export class OngoingCdkStack extends cfn.Stack {
             partitionKey: { name: 'AnimeKey', type: dynamodb.AttributeType.STRING },
             removalPolicy: cfn.RemovalPolicy.RETAIN,
             billingMode: dynamodb.BillingMode.PROVISIONED,
-            maxReadRequestUnits: 1,
-            maxWriteRequestUnits: 1,
+            readCapacity: 1,
+            writeCapacity: 1,
         });
     }
 
