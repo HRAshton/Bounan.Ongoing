@@ -1,5 +1,5 @@
 import { config } from '../../config/config';
-import { getAnimeById } from 'jikan-api-lightweight-client/src/client';
+import { getAnimeInfo } from '../../api-clients/my-anime-list/mal-client';
 
 // Assumption: episodes can be started from any number, but they are always in order.
 // Say, if episode 12 is released, then all existing previous episodes are released as well.
@@ -15,10 +15,10 @@ export const checkIfCompleted = async (
         return true;
     }
 
-    const animeInfo = await getAnimeById({ id: myAnimeListId });
+    const animeInfo = await getAnimeInfo(myAnimeListId);
     console.log('Anime info: ', animeInfo);
 
-    const expectedLastEpisode: number | undefined | null = animeInfo?.data?.episodes;
+    const expectedLastEpisode: number | undefined = animeInfo?.num_episodes;
     console.log('Expected last episode: ', expectedLastEpisode);
     if (!expectedLastEpisode) {
         // If an expected last episode is not defined, it is probably a movie or a single episode anime.
