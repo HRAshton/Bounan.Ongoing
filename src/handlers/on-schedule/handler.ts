@@ -3,7 +3,7 @@ import { deleteAnime, getAll } from './repository';
 import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-client';
 import { AnimeEntity } from '../../models/anime-entity';
 import { VideoKey } from '../../common/ts/interfaces';
-import { getExistingVideos, setToken } from '../../loan-api/src/animan-loan-api-client';
+import { getExistingVideos, setToken } from '../../loan-api/src/loan-api-client';
 import { config, initConfig } from '../../config/config';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
 
