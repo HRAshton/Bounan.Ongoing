@@ -2,7 +2,7 @@ import { config } from '../../config/config';
 import { getAnimeById } from 'jikan-api-lightweight-client/src/client';
 import { useRateLimit } from './rate-limit';
 
-const getAnimeByIdRateLimited = useRateLimit(getAnimeById, 3);
+const getAnimeByIdRateLimited = useRateLimit(getAnimeById, 500);
 
 // Assumption: episodes can be started from any number, but they are always in order.
 // Say, if episode 12 is released, then all existing previous episodes are released as well.
