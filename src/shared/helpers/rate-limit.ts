@@ -1,19 +1,20 @@
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-export const useRateLimit = <TArgs, TResult>(callback: (_: TArgs) => TResult, delayBetweenCallsMs: number) => {
-    let lastCallTime = 0;
+export function useRateLimit<TArgs, TResult>(
+    callback: (args: TArgs) => TResult | Promise<TResult>,
+    delayBetweenCallsMs: number
+): (args: TArgs) => Promise<TResult> {
+    let lastResultTime = 0;
 
     return async (args: TArgs): Promise<TResult> => {
-        const currentTime = Date.now();
-        const timeSinceLastCall = currentTime - lastCallTime;
+        const now = Date.now();
+        const timeSinceLastCall = now - lastResultTime;
 
         if (timeSinceLastCall < delayBetweenCallsMs) {
-            await sleep(delayBetweenCallsMs - timeSinceLastCall);
+            await new Promise((resolve) => setTimeout(resolve, delayBetweenCallsMs - timeSinceLastCall));
         }
 
         const result = await callback(args);
-        lastCallTime = Date.now();
-        return result;
-    };
+        lastResultTime = Date.now();
 
+        return result;
+    }
 }
