@@ -1,5 +1,8 @@
 import { config } from '../../config/config';
 import { getAnimeById } from 'jikan-api-lightweight-client/src/client';
+import { useRateLimit } from './rate-limit';
+
+const getAnimeByIdRateLimited = useRateLimit(getAnimeById, 3);
 
 // Assumption: episodes can be started from any number, but they are always in order.
 // Say, if episode 12 is released, then all existing previous episodes are released as well.
@@ -15,7 +18,7 @@ export const checkIfCompleted = async (
         return true;
     }
 
-    const animeInfo = await getAnimeById({ id: myAnimeListId });
+    const animeInfo = await getAnimeByIdRateLimited({ id: myAnimeListId });
     console.log('Anime info: ', animeInfo);
 
     const expectedLastEpisode: number | undefined | null = animeInfo?.data?.episodes;
