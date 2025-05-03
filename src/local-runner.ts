@@ -1,5 +1,6 @@
 ﻿import { handler as videoRegistered } from './handlers/on-video-registered/handler';
 import { VideoRegisteredNotification } from './common/ts/interfaces';
+import { handler as onSchedule } from './handlers/on-schedule/handler';
 
 const onRegistered = async (message: VideoRegisteredNotification) => {
     console.log('Processing message: ', message);
@@ -11,30 +12,32 @@ const onRegistered = async (message: VideoRegisteredNotification) => {
 }
 
 const main = async () => {
-    const myAnimeListId = 22101;
-    const dub = 'AniLibria.TV';
+    const animes: [number, string][] = [
+        [59730, 'РуАниме / DEEP'],
+        [801, 'MC Entertainment'],
+    ]
 
     console.log('TEST: Episodes should be registered on the first run');
     await onRegistered({
         Items: [
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 1,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 2,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 3,
                 },
             },
@@ -47,8 +50,8 @@ const main = async () => {
         Items: [
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 2,
                 },
             },
@@ -61,29 +64,29 @@ const main = async () => {
         Items: [
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 2,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 3,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 4,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 5,
                 },
             },
@@ -96,22 +99,22 @@ const main = async () => {
         Items: [
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId + 1,
-                    Dub: dub,
+                    MyAnimeListId: animes[1][0],
+                    Dub: animes[1][1],
                     Episode: 1,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId,
-                    Dub: dub,
+                    MyAnimeListId: animes[0][0],
+                    Dub: animes[0][1],
                     Episode: 2,
                 },
             },
             {
                 VideoKey: {
-                    MyAnimeListId: myAnimeListId + 1,
-                    Dub: dub,
+                    MyAnimeListId: animes[1][0],
+                    Dub: animes[1][1],
                     Episode: 3,
                 },
             },
@@ -123,13 +126,17 @@ const main = async () => {
     await onRegistered({
         Items: Array.from({ length: 24 }, (_, i) => ({
             VideoKey: {
-                MyAnimeListId: myAnimeListId,
-                Dub: dub,
+                MyAnimeListId: animes[0][0],
+                Dub: animes[0][1],
                 Episode: i + 1,
             },
         })),
     });
     console.warn('Expected: Anime deleted\n\n');
+
+    console.log('TEST: On Schedule');
+    await onSchedule({} as never);
+    console.warn('Expected: No errors\n\n');
 }
 
 main();
