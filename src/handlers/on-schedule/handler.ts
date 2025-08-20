@@ -8,17 +8,13 @@ import { config, initConfig } from '../../config/config';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
 
 const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
-    const loanApiVideos = await getExistingVideos(anime.MyAnimeListId, anime.Dub);
+    const loanApiVideos = await getExistingVideos(anime.myAnimeListId, anime.dub);
     console.log('Loan API videos: ', JSON.stringify(loanApiVideos));
 
-    const newVideos = loanApiVideos.filter(x => !anime.Episodes.has(x.episode));
+    const newVideos = loanApiVideos.filter(x => !anime.episodes.has(x.episode));
     console.log('New videos: ', JSON.stringify(newVideos));
 
-    return newVideos.map(x => ({
-        MyAnimeListId: x.myAnimeListId,
-        Dub: x.dub,
-        Episode: x.episode,
-    }));
+    return newVideos;
 }
 
 const registerNewVideos = async (): Promise<void> => {
@@ -45,10 +41,10 @@ const cleanupCompletedSeries = async (): Promise<void> => {
     const registeredAnimes = await getAll();
 
     for (const anime of registeredAnimes) {
-        const isCompleted = await checkIfCompleted(anime.MyAnimeListId, new Date(anime.UpdatedAt), anime.Episodes);
+        const isCompleted = await checkIfCompleted(anime.myAnimeListId, new Date(anime.updatedAt), anime.episodes);
         if (isCompleted) {
             await deleteAnime(anime);
-            console.info(`Anime was deleted: ${anime.MyAnimeListId}`);
+            console.info(`Anime was deleted: ${anime.myAnimeListId}`);
         }
     }
 }

@@ -15,8 +15,8 @@ export const getAll = async (): Promise<AnimeEntity[]> => {
 export const deleteAnime = async (animeKey: AnimeKey): Promise<void> => {
     const command = new DeleteCommand({
         TableName: config.value.database.tableName,
-        Key: { AnimeKey: getAnimeKey(animeKey) },
-        ConditionExpression: 'attribute_exists(AnimeKey)',
+        Key: { animeKey: getAnimeKey(animeKey) },
+        ConditionExpression: 'attribute_exists(animeKey)',
     });
 
     const result = await docClient.send(command);

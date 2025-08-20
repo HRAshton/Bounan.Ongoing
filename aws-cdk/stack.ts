@@ -14,6 +14,7 @@ import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions';
 
 import { Config, getConfig } from './config';
 import { Config as RuntimeConfig } from '../src/config/config';
+import { AnimeEntity } from '../src/models/anime-entity';
 
 export class OngoingCdkStack extends cfn.Stack {
     constructor(scope: Construct, id: string, props?: cfn.StackProps) {
@@ -37,8 +38,10 @@ export class OngoingCdkStack extends cfn.Stack {
     }
 
     private createTable(): dynamodb.Table {
-        return new dynamodb.Table(this, 'Table', {
-            partitionKey: { name: 'AnimeKey', type: dynamodb.AttributeType.STRING },
+        const keyProperty: keyof AnimeEntity = 'animeKey';
+
+        return new dynamodb.Table(this, 'main', {
+            partitionKey: { name: keyProperty, type: dynamodb.AttributeType.STRING },
             deletionProtection: true,
             removalPolicy: cfn.RemovalPolicy.RETAIN,
             billingMode: dynamodb.BillingMode.PROVISIONED,

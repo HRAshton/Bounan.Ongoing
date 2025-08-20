@@ -19,26 +19,26 @@ const main = async () => {
 
     console.log('TEST: Episodes should be registered on the first run');
     await onRegistered({
-        Items: [
+        items: [
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 1,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 1,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 2,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 2,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 3,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 3,
                 },
             },
         ],
@@ -47,12 +47,12 @@ const main = async () => {
 
     console.log('TEST: Episodes should not be registered twice');
     await onRegistered({
-        Items: [
+        items: [
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 2,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 2,
                 },
             },
         ],
@@ -61,33 +61,33 @@ const main = async () => {
 
     console.log('TEST: Only new episodes should be registered');
     await onRegistered({
-        Items: [
+        items: [
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 2,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 2,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 3,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 3,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 4,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 4,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 5,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 5,
                 },
             },
         ],
@@ -96,26 +96,26 @@ const main = async () => {
 
     console.log('TEST: Different titles should be registered separately');
     await onRegistered({
-        Items: [
+        items: [
             {
-                VideoKey: {
-                    MyAnimeListId: animes[1][0],
-                    Dub: animes[1][1],
-                    Episode: 1,
+                videoKey: {
+                    myAnimeListId: animes[1][0],
+                    dub: animes[1][1],
+                    episode: 1,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[0][0],
-                    Dub: animes[0][1],
-                    Episode: 2,
+                videoKey: {
+                    myAnimeListId: animes[0][0],
+                    dub: animes[0][1],
+                    episode: 2,
                 },
             },
             {
-                VideoKey: {
-                    MyAnimeListId: animes[1][0],
-                    Dub: animes[1][1],
-                    Episode: 3,
+                videoKey: {
+                    myAnimeListId: animes[1][0],
+                    dub: animes[1][1],
+                    episode: 3,
                 },
             },
         ],
@@ -124,11 +124,11 @@ const main = async () => {
 
     console.log('TEST: When we add last episode, the anime should be deleted');
     await onRegistered({
-        Items: Array.from({ length: 24 }, (_, i) => ({
-            VideoKey: {
-                MyAnimeListId: animes[0][0],
-                Dub: animes[0][1],
-                Episode: i + 1,
+        items: Array.from({ length: 24 }, (_, i) => ({
+            videoKey: {
+                myAnimeListId: animes[0][0],
+                dub: animes[0][1],
+                episode: i + 1,
             },
         })),
     });

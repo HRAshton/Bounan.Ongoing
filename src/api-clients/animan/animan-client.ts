@@ -8,7 +8,7 @@ export const sendRegisterVideosRequest = async (videoKeys: VideoKey[]): Promise<
     console.log('Sending register videos request: ', videoKeys);
 
     const request: RegisterVideosRequest = {
-        Items: videoKeys.map(x => ({ VideoKey: x })),
+        items: videoKeys.map(videoKey => ({ videoKey })),
     };
 
     const message = JSON.stringify(request);

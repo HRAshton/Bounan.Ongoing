@@ -1,12 +1,12 @@
 ﻿export interface AnimeEntity {
-    AnimeKey: string;
-    MyAnimeListId: number;
-    Dub: string;
+    animeKey: string;
+    myAnimeListId: number;
+    dub: string;
 
-    Episodes: Set<number>;
+    episodes: Set<number>;
 
-    CreatedAt: string;
-    UpdatedAt: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
-export type AnimeKey = Pick<AnimeEntity, 'MyAnimeListId' | 'Dub'>;
+export type AnimeKey = Pick<AnimeEntity, 'myAnimeListId' | 'dub'>;
