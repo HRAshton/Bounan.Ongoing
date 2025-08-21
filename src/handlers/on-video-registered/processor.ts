@@ -1,7 +1,7 @@
 ﻿import { VideoKey, VideoRegisteredNotification } from '../../common/ts/interfaces';
+import { AnimeKey } from '../../models/anime-entity';
 import { getEpisodes } from '../../shared/repository';
 import { addAnime, addEpisodes } from './repository';
-import { AnimeKey } from '../../models/anime-entity';
 
 const processAnime = async (videos: VideoKey[]): Promise<void> => {
     const animeKey: AnimeKey = videos[0];

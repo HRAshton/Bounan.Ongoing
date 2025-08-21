@@ -1,6 +1,6 @@
-﻿import { handler as videoRegistered } from './handlers/on-video-registered/handler';
-import { VideoRegisteredNotification } from './common/ts/interfaces';
+﻿import { VideoRegisteredNotification } from './common/ts/interfaces';
 import { handler as onSchedule } from './handlers/on-schedule/handler';
+import { handler as videoRegistered } from './handlers/on-video-registered/handler';
 
 const onRegistered = async (message: VideoRegisteredNotification) => {
     console.log('Processing message: ', message);

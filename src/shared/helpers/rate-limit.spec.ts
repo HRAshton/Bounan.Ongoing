@@ -1,6 +1,7 @@
-import { expect, test, describe, afterEach } from 'vitest'
+import { getAnimeById } from '@lightweight-clients/jikan-api-lightweight-client';
+import { afterEach, describe, expect, test } from 'vitest'
+
 import { useRateLimit } from './rate-limit';
-import { getAnimeById } from 'jikan-api-lightweight-client/src/client';
 
 describe('useRateLimit', () => {
     const args: number[] = [];
@@ -49,7 +50,7 @@ describe('useRateLimit', () => {
                 expect(timeDiff).to.be.greaterThanOrEqual(333);
                 expect(timeDiff).to.be.lessThan(333 + 100);
             }
-        }, { timeout: 40000 });
+        }, 40000);
 
         test('should handle multiple calls correctly', async () => {
             const rateLimitedCallback = useRateLimit(callbackStub, 0);
@@ -70,7 +71,7 @@ describe('useRateLimit', () => {
         test('integration with jikan', async () => {
             const callsCount = 10;
             const results: unknown[] = [];
-            const rateLimitedCallback = useRateLimit(() => getAnimeById({ id: 801 }), 1000);
+            const rateLimitedCallback = useRateLimit(() => getAnimeById(801), 1000);
 
             for (let i = 0; i < callsCount; i++) {
                 timestamps.push(Date.now());
@@ -85,6 +86,6 @@ describe('useRateLimit', () => {
                 expect(res).toBeInstanceOf(Object);
                 expect(res).toHaveProperty('data');
             }
-        }, { timeout: 20000 });
+        }, 20000);
     });
 });

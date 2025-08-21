@@ -1,6 +1,7 @@
 ﻿import * as cdk from 'aws-cdk-lib';
-import configFile from './configuration.json';
+
 import { ExportNames } from '../src/common/ts/cdk/export-names';
+import configFile from './configuration.json';
 
 export interface Config {
     alertEmail: string;

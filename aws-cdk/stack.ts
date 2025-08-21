@@ -1,20 +1,20 @@
-﻿import { Construct } from 'constructs';
-import { LlrtFunction } from 'cdk-lambda-llrt';
-import * as cfn from 'aws-cdk-lib';
+﻿import * as cfn from 'aws-cdk-lib';
+import * as cw from 'aws-cdk-lib/aws-cloudwatch';
+import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as eventBridge from 'aws-cdk-lib/aws-events';
 import * as eventBridgeTargets from 'aws-cdk-lib/aws-events-targets';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as ssm from 'aws-cdk-lib/aws-ssm';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import * as cw from 'aws-cdk-lib/aws-cloudwatch';
-import * as cloudwatchActions from 'aws-cdk-lib/aws-cloudwatch-actions';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import { LlrtFunction } from 'cdk-lambda-llrt';
+import { Construct } from 'constructs';
 
-import { Config, getConfig } from './config';
 import { Config as RuntimeConfig } from '../src/config/config';
 import { AnimeEntity } from '../src/models/anime-entity';
+import { Config, getConfig } from './config';
 
 export class OngoingCdkStack extends cfn.Stack {
     constructor(scope: Construct, id: string, props?: cfn.StackProps) {

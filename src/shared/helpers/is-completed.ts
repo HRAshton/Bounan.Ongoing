@@ -1,5 +1,6 @@
+import { getAnimeById } from '@lightweight-clients/jikan-api-lightweight-client';
+
 import { config } from '../../config/config';
-import { getAnimeById } from 'jikan-api-lightweight-client/src/client';
 import { useRateLimit } from './rate-limit';
 
 const getAnimeByIdRateLimited = useRateLimit(getAnimeById, 1000);
@@ -18,7 +19,7 @@ export const checkIfCompleted = async (
         return true;
     }
 
-    const animeInfo = await getAnimeByIdRateLimited({ id: myAnimeListId });
+    const animeInfo = await getAnimeByIdRateLimited(myAnimeListId);
     console.log('Anime info: ', animeInfo);
 
     const expectedLastEpisode: number | undefined | null = animeInfo?.data?.episodes;

@@ -1,7 +1,8 @@
-﻿import { AnimeEntity, AnimeKey } from '../models/anime-entity';
-import { config } from '../config/config';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+﻿import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+
+import { config } from '../config/config';
+import { AnimeEntity, AnimeKey } from '../models/anime-entity';
 
 const dynamoDbClient = new DynamoDBClient();
 

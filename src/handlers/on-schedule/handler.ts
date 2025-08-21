@@ -1,11 +1,12 @@
 ﻿import { EventBridgeEvent } from 'aws-lambda';
-import { deleteAnime, getAll } from './repository';
+
 import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-client';
-import { AnimeEntity } from '../../models/anime-entity';
 import { VideoKey } from '../../common/ts/interfaces';
-import { getExistingVideos, setToken } from '../../loan-api/src/loan-api-client';
 import { config, initConfig } from '../../config/config';
+import { getExistingVideos, setToken } from '../../loan-api/src/loan-api-client';
+import { AnimeEntity } from '../../models/anime-entity';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
+import { deleteAnime, getAll } from './repository';
 
 const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
     const loanApiVideos = await getExistingVideos(anime.myAnimeListId, anime.dub);
