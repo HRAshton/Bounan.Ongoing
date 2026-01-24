@@ -1,6 +1,6 @@
 ﻿import * as cdk from 'aws-cdk-lib';
 
-import { ExportNames } from '../src/common/ts/cdk/export-names';
+import { ExportNames } from '../third-party/common/ts/cdk/export-names';
 import configFile from './configuration.json';
 
 export interface Config {

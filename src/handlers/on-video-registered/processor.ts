@@ -1,4 +1,4 @@
-﻿import { VideoKey, VideoRegisteredNotification } from '../../common/ts/interfaces';
+﻿import { VideoKey, VideoRegisteredNotification } from '../../../third-party/common/ts/interfaces';
 import { AnimeKey } from '../../models/anime-entity';
 import { getEpisodes } from '../../shared/repository';
 import { addAnime, addEpisodes } from './repository';

@@ -5,7 +5,6 @@
     "src/handlers/**/handler.ts"
   ],
   "ignore": [
-    "src/common/**",
-    "src/loan-api/**"
+    "third-party/**"
   ]
 }
