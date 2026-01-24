@@ -10,11 +10,12 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { LlrtFunction } from 'cdk-lambda-llrt';
-import { Construct } from 'constructs';
+import type { Construct } from 'constructs';
 
-import { Config as RuntimeConfig } from '../../app/src/config/types';
-import { AnimeEntity } from '../../app/src/models/anime-entity';
-import { Config, getConfig } from './config';
+import type { Config as RuntimeConfig } from '../../app/src/config/types';
+import type { AnimeEntity } from '../../app/src/models/anime-entity';
+import type { Config } from './config';
+import { getConfig } from './config';
 
 export class OngoingCdkStack extends cfn.Stack {
     constructor(scope: Construct, id: string, props?: cfn.StackProps) {

@@ -1,4 +1,4 @@
-﻿import { VideoRegisteredNotification } from '../../../third-party/common/ts/interfaces';
+﻿import type { VideoRegisteredNotification } from '../../../third-party/common/ts/interfaces';
 import { handler as onSchedule } from './handlers/on-schedule/handler';
 import { handler as videoRegistered } from './handlers/on-video-registered/handler';
 

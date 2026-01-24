@@ -1,7 +1,7 @@
 ﻿import { PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 import { config } from '../../config/config';
-import { AnimeEntity, AnimeKey } from '../../models/anime-entity';
+import type { AnimeEntity, AnimeKey } from '../../models/anime-entity';
 import { docClient, getAnimeKey } from '../../shared/repository';
 
 export const addAnime = async (animeKey: AnimeKey, episodes: Set<number>): Promise<void> => {

@@ -2,7 +2,7 @@
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 
 import { config } from '../config/config';
-import { AnimeEntity, AnimeKey } from '../models/anime-entity';
+import type { AnimeEntity, AnimeKey } from '../models/anime-entity';
 
 const dynamoDbClient = new DynamoDBClient();
 

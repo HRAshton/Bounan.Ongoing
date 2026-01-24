@@ -1,5 +1,5 @@
 ﻿import { fetchSsmValue } from '../../../../third-party/common/ts/runtime/ssm-client';
-import { Config } from './types';
+import type { Config } from './types';
 
 let cachedConfig: Config | undefined;
 
