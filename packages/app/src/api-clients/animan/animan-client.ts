@@ -6,18 +6,18 @@ import { config } from '../../config/config';
 const lambdaClient = new LambdaClient({});
 
 export const sendRegisterVideosRequest = async (videoKeys: VideoKey[]): Promise<void> => {
-    console.log('Sending register videos request: ', videoKeys);
+  console.log('Sending register videos request: ', videoKeys);
 
-    const request: RegisterVideosRequest = {
-        items: videoKeys.map(videoKey => ({ videoKey })),
-    };
+  const request: RegisterVideosRequest = {
+    items: videoKeys.map(videoKey => ({ videoKey })),
+  };
 
-    const message = JSON.stringify(request);
-    console.log('Sending request: ', message);
+  const message = JSON.stringify(request);
+  console.log('Sending request: ', message);
 
-    const result = await lambdaClient.send(new InvokeCommand({
-        FunctionName: config.value.animan.registerVideosLambdaName,
-        Payload: message,
-    }));
-    console.log('Request sent: ', result);
+  const result = await lambdaClient.send(new InvokeCommand({
+    FunctionName: config.value.animan.registerVideosLambdaName,
+    Payload: message,
+  }));
+  console.log('Request sent: ', result);
 }
