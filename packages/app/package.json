@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "run-local": "cross-env AWS_PROFILE=hra npx jiti src/local-runner.ts",
+    "typecheck": "tsc",
+    "test": "vitest --run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "catalog:",
+    "@aws-sdk/client-lambda": "catalog:",
+    "@aws-sdk/client-ssm": "catalog:",
+    "@aws-sdk/lib-dynamodb": "catalog:",
+    "@lightweight-clients/jikan-api-lightweight-client": "catalog:",
+    "aws-lambda": "catalog:"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "catalog:",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "jiti": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

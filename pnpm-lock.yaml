@@ -71,6 +71,24 @@ importers:
 
   .:
     devDependencies:
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 9.39.2
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.2(jiti@2.6.1)
+      eslint-plugin-simple-import-sort:
+        specifier: 'catalog:'
+        version: 12.1.1(eslint@9.39.2(jiti@2.6.1))
+      knip:
+        specifier: 'catalog:'
+        version: 5.82.1(@types/node@25.0.10)(typescript@5.9.3)
+      typescript-eslint:
+        specifier: 'catalog:'
+        version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+
+  packages/app:
+    dependencies:
       '@aws-sdk/client-dynamodb':
         specifier: 'catalog:'
         version: 3.974.0
@@ -83,54 +101,49 @@ importers:
       '@aws-sdk/lib-dynamodb':
         specifier: 'catalog:'
         version: 3.974.0(@aws-sdk/client-dynamodb@3.974.0)
-      '@eslint/js':
-        specifier: 'catalog:'
-        version: 9.39.2
       '@lightweight-clients/jikan-api-lightweight-client':
         specifier: 'catalog:'
         version: 4.0.2
+      aws-lambda:
+        specifier: 'catalog:'
+        version: 1.0.7
+    devDependencies:
       '@types/aws-lambda':
         specifier: 'catalog:'
         version: 8.10.160
       '@types/node':
         specifier: 'catalog:'
         version: 25.0.10
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      jiti:
+        specifier: 'catalog:'
+        version: 2.6.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.18(@types/node@25.0.10)(jiti@2.6.1)
+
+  packages/infra:
+    devDependencies:
       aws-cdk-lib:
         specifier: 'catalog:'
         version: 2.235.1(constructs@10.4.5)
-      aws-lambda:
-        specifier: 'catalog:'
-        version: 1.0.7
       cdk-lambda-llrt:
         specifier: 'catalog:'
         version: 0.1.4(aws-cdk-lib@2.235.1(constructs@10.4.5))(constructs@10.4.5)
       constructs:
         specifier: 'catalog:'
         version: 10.4.5
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
-      eslint-plugin-simple-import-sort:
-        specifier: 'catalog:'
-        version: 12.1.1(eslint@9.39.2(jiti@2.6.1))
-      jiti:
-        specifier: 'catalog:'
-        version: 2.6.1
-      knip:
-        specifier: 'catalog:'
-        version: 5.82.1(@types/node@25.0.10)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
-      typescript-eslint:
-        specifier: 'catalog:'
-        version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      vitest:
-        specifier: 'catalog:'
-        version: 4.0.18(@types/node@25.0.10)(jiti@2.6.1)
 
 packages:
 

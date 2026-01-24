@@ -12,8 +12,8 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { LlrtFunction } from 'cdk-lambda-llrt';
 import { Construct } from 'constructs';
 
-import { Config as RuntimeConfig } from '../src/config/types';
-import { AnimeEntity } from '../src/models/anime-entity';
+import { Config as RuntimeConfig } from '../../app/src/config/types';
+import { AnimeEntity } from '../../app/src/models/anime-entity';
 import { Config, getConfig } from './config';
 
 export class OngoingCdkStack extends cfn.Stack {
@@ -89,7 +89,7 @@ export class OngoingCdkStack extends cfn.Stack {
 
         Object.entries(LambdaHandler).forEach(([lambdaName, handlerName]) => {
             const func = new LlrtFunction(this, lambdaName, {
-                entry: `src/handlers/${handlerName}/handler.ts`,
+                entry: `../app/src/handlers/${handlerName}/handler.ts`,
                 handler: 'handler',
                 logGroup: logGroup,
                 timeout: cfn.Duration.seconds(30),

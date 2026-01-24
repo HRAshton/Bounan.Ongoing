@@ -1,17 +1,20 @@
-import eslint from '@eslint/js';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
-import tseslint from 'typescript-eslint';
+import * as eslint from '@eslint/js';
+import * as simpleImportSort from 'eslint-plugin-simple-import-sort';
+import * as tseslint from 'typescript-eslint';
 
 export default [
     {
-        ignores: ['node_modules', 'cdk.out'],
+        ignores: [
+            '**/node_modules',
+            '**/cdk.out',
+        ],
     },
     eslint.configs.recommended,
     ...tseslint.configs.recommended,
     {
         languageOptions: {
             parser: tseslint.parser,
-            parserOptions: { project: './tsconfig.json' },
+            parserOptions: { project: './tsconfig.base.json' },
         },
 
         rules: {

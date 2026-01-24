@@ -1,6 +1,6 @@
 ﻿import { SNSEvent } from 'aws-lambda';
 
-import { retry } from '../../../third-party/common/ts/runtime/retry';
+import { retry } from '../../../../../third-party/common/ts/runtime/retry';
 import { initConfig } from '../../config/config';
 import { process } from './processor';
 

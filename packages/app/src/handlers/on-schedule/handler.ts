@@ -1,7 +1,7 @@
 ﻿import { EventBridgeEvent } from 'aws-lambda';
 
-import { VideoKey } from '../../../third-party/common/ts/interfaces';
-import { getExistingVideos, setToken } from '../../../third-party/loan-api/src/loan-api-client';
+import { VideoKey } from '../../../../../third-party/common/ts/interfaces';
+import { getExistingVideos, setToken } from '../../../../../third-party/loan-api/src/loan-api-client';
 import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-client';
 import { config, initConfig } from '../../config/config';
 import { AnimeEntity } from '../../models/anime-entity';

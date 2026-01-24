@@ -1,10 +1,6 @@
-# Use hoisted node linker for compatibility with LlrtFunction construct. This construct bundles
-# dependencies using docker, which does not work with host's symlinks.
-nodeLinker: hoisted
-
-onlyBuiltDependencies:
-  - aws-sdk
-  - esbuild
+packages:
+  - packages/*
+  - third-party/common/ts
 
 catalog:
   "@aws-sdk/client-dynamodb": 3.974.0
@@ -27,3 +23,11 @@ catalog:
   typescript: 5.9.3
   typescript-eslint: 8.53.1
   vitest: 4.0.18
+
+# Use hoisted node linker for compatibility with LlrtFunction construct. This construct bundles
+# dependencies using docker, which does not work with host's symlinks.
+nodeLinker: hoisted
+
+onlyBuiltDependencies:
+  - aws-sdk
+  - esbuild
