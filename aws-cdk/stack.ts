@@ -12,7 +12,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { LlrtFunction } from 'cdk-lambda-llrt';
 import { Construct } from 'constructs';
 
-import { Config as RuntimeConfig } from '../src/config/config';
+import { Config as RuntimeConfig } from '../src/config/types';
 import { AnimeEntity } from '../src/models/anime-entity';
 import { Config, getConfig } from './config';
 
