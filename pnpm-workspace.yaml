@@ -11,6 +11,8 @@ catalog:
   '@lightweight-clients/jikan-api-lightweight-client': 4.0.2
   '@types/aws-lambda': 8.10.160
   '@types/node': 25.0.10
+  '@vitest/coverage-v8': 4.0.18
+  '@vitest/ui': 4.0.18
   aws-cdk-lib: 2.236.0
   cdk-lambda-llrt: 0.1.4
   constructs: 10.4.5

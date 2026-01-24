@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "run-local": "cross-env AWS_PROFILE=hra npx jiti src/local-runner.ts",
-    "typecheck": "tsc",
-    "test": "vitest --run"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "catalog:",
@@ -18,7 +17,6 @@
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "jiti": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   }
 }
