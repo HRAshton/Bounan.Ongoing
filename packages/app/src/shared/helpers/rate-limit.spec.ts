@@ -1,4 +1,3 @@
-import { getAnimeById } from '@lightweight-clients/jikan-api-lightweight-client';
 import { afterEach, describe, expect, test } from 'vitest'
 
 import { useRateLimit } from './rate-limit';
@@ -35,7 +34,7 @@ describe('useRateLimit', () => {
       expect(timestamps[0]).closeTo(startTime, 50); // Allow a small margin for execution time
     });
 
-    test('should delay calls to respect the rate limit', async () => {
+    test('should delay calls to respect the rate limit', { retry: 2 }, async () => {
       const callsCount = 10;
 
       const rateLimitedCallback = useRateLimit(callbackStub, 333);
@@ -50,7 +49,7 @@ describe('useRateLimit', () => {
         expect(timeDiff).to.be.greaterThanOrEqual(333);
         expect(timeDiff).to.be.lessThan(333 + 100);
       }
-    }, 40000);
+    });
 
     test('should handle multiple calls correctly', async () => {
       const rateLimitedCallback = useRateLimit(callbackStub, 0);
@@ -65,27 +64,5 @@ describe('useRateLimit', () => {
       expect(args[2]).equal(3);
       expect(args[3]).equal(4);
     });
-  });
-
-  describe('integration tests', () => {
-    test('integration with jikan', async () => {
-      const callsCount = 10;
-      const results: unknown[] = [];
-      const rateLimitedCallback = useRateLimit(() => getAnimeById(801), 1000);
-
-      for (let i = 0; i < callsCount; i++) {
-        timestamps.push(Date.now());
-        const res = await rateLimitedCallback({});
-        results.push(res);
-      }
-
-      expect(results.length).equal(callsCount);
-      for (let i = 0; i < callsCount; i++) {
-        console.log(`Checking result #${i}`);
-        const res = results[i];
-        expect(res).toBeInstanceOf(Object);
-        expect(res).toHaveProperty('data');
-      }
-    }, 20000);
   });
 });

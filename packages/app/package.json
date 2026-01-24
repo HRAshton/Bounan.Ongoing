@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/aws-lambda": "catalog:",
     "@types/node": "catalog:",
+    "aws-sdk-client-mock": "catalog:",
     "cross-env": "catalog:",
     "jiti": "catalog:",
     "typescript": "catalog:"

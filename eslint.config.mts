@@ -35,4 +35,10 @@ export default [
       'simple-import-sort/exports': 'error',
     },
   },
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off',
+    },
+  },
 ];

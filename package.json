@@ -6,9 +6,9 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "knip": "knip",
-    "test": "vitest --coverage",
+    "test": "vitest run --coverage",
     "test:watch": "vitest --watch",
-    "test:ui": "vitest --ui",
+    "test:ui": "vitest --ui --project unit-tests",
     "dependencies:check": "pnpm outdated --recursive --use-stderr",
     "dependencies:update": "pnpm update --recursive --latest",
     "prerelease": "npm-run-all --parallel typecheck lint test knip dependencies:check && echo 'All checks passed!'"
