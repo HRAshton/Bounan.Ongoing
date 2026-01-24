@@ -1,6 +1,5 @@
 {
   "name": "bounan-animan",
-  "version": "1.0",
   "private": true,
   "scripts": {
     "typecheck": "pnpm -r run typecheck",
@@ -10,7 +9,7 @@
     "test": "pnpm -r --if-present run test",
     "dependencies:check": "pnpm outdated --recursive --use-stderr",
     "dependencies:update": "pnpm update --recursive --latest",
-    "prerelease": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run knip && pnpm run dependencies:check"
+    "prerelease": "npm-run-all --parallel typecheck lint test knip dependencies:check && echo 'All checks passed!'"
   },
   "license": "BSD-3-Clause",
   "keywords": [],
@@ -28,7 +27,8 @@
     "@eslint/js": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-simple-import-sort": "catalog:",
-    "typescript-eslint": "catalog:",
-    "knip": "catalog:"
+    "knip": "catalog:",
+    "npm-run-all": "catalog:",
+    "typescript-eslint": "catalog:"
   }
 }
