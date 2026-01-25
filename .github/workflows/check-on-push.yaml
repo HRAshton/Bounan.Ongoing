@@ -9,7 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  prerelease:
+  code-quality:
+    name: Code Quality Checks
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
@@ -31,26 +32,30 @@ jobs:
       - name: Perform prerelease checks
         run: pnpm run prerelease
 
-#  diff:
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 2
-#
-#    env:
-#      AWS_DEFAULT_REGION: eu-north-1
-#      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-#      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-#
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - uses: actions/setup-node@v4
-#        with:
-#          node-version: 20
-#
-#      - uses: pnpm/action-setup@v4
-#
-#      - name: Install dependencies
-#        run: pnpm install --frozen-lockfile --filter infra...
-#
-#      - name: CDK diff (fails if differences)
-#        run: pnpm run cdk:diff --all --no-color --fail
+  diff:
+    name: CDK Diff Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    env:
+      AWS_DEFAULT_REGION: eu-north-1
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_DIFF_CHECK }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_DIFF_CHECK }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          token: ${{ secrets.LOAN_API_PAT_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter infra...
+
+      - name: CDK diff (fails if differences)
+        run: pnpm run cdk:diff --all --no-color --fail
