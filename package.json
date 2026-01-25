@@ -1,5 +1,5 @@
 {
-  "name": "bounan-animan",
+  "name": "bounan-ongoing",
   "private": true,
   "scripts": {
     "typecheck": "pnpm -r run typecheck",
