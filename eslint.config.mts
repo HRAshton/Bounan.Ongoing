@@ -7,6 +7,7 @@ export default [
     ignores: [
       '**/node_modules',
       '**/cdk.out',
+      '**/coverage',
       'third-party',
     ],
   },

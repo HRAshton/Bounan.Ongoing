@@ -17,7 +17,6 @@
     "@types/node": "catalog:",
     "aws-sdk-client-mock": "catalog:",
     "cross-env": "catalog:",
-    "jiti": "catalog:",
     "typescript": "catalog:"
   }
 }

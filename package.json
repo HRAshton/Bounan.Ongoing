@@ -11,8 +11,12 @@
     "test:ui": "vitest --ui --project unit-tests",
     "dependencies:check": "pnpm outdated --recursive --use-stderr",
     "dependencies:update": "pnpm update --recursive --latest",
-    "prerelease": "npm-run-all --parallel typecheck lint test knip dependencies:check && echo 'All checks passed!'"
+    "licenses:scan": "pnpm licenses list --prod --json > thirdparty.json",
+    "licenses:generate": "pnpm run -w licenses:scan && jiti scripts/format-thirdparty.ts",
+    "all-commited": "git diff --exit-code && git diff --cached --exit-code",
+    "prerelease": "npm-run-all --parallel typecheck lint test knip dependencies:check licenses:generate && pnpm run -w all-commited && echo 'All checks passed!'"
   },
+  "type": "module",
   "license": "BSD-3-Clause",
   "keywords": [],
   "author": {
@@ -31,6 +35,7 @@
     "@vitest/ui": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-simple-import-sort": "catalog:",
+    "jiti": "catalog:",
     "knip": "catalog:",
     "npm-run-all": "catalog:",
     "typescript-eslint": "catalog:",
