@@ -93,7 +93,7 @@ export class OngoingCdkStack extends cfn.Stack {
         entry: `../app/src/handlers/${handlerName}/handler.ts`,
         handler: 'handler',
         logGroup: logGroup,
-        timeout: cfn.Duration.seconds(30),
+        timeout: cfn.Duration.seconds(90),
       });
 
       filesTable.grantReadWriteData(func);
