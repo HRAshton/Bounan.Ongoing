@@ -6,8 +6,7 @@ const initConfigMock = vi.hoisted(() => vi.fn());
 const configValue = vi.hoisted(() => ({
   loanApiConfig: { token: 'test-token' },
 }));
-const setTokenMock = vi.hoisted(() => vi.fn());
-const getExistingVideosMock = vi.hoisted(() => vi.fn());
+const getEpisodesMock = vi.hoisted(() => vi.fn());
 
 const sendRegisterVideosRequestMock = vi.hoisted(() => vi.fn());
 const checkIfCompletedMock = vi.hoisted(() => vi.fn());
@@ -24,9 +23,8 @@ vi.mock('../../config/config', () => ({
   },
 }));
 
-vi.mock('../../../../../third-party/loan-api/src/loan-api-client', () => ({
-  setToken: setTokenMock,
-  getExistingVideos: getExistingVideosMock,
+vi.mock('../../api-clients/loan-api-client', () => ({
+  getEpisodes: getEpisodesMock,
 }));
 
 vi.mock('../../api-clients/animan-client', () => ({
@@ -45,8 +43,7 @@ vi.mock('./repository', () => ({
 describe('handler', () => {
   beforeEach(() => {
     initConfigMock.mockReset();
-    setTokenMock.mockReset();
-    getExistingVideosMock.mockReset();
+    getEpisodesMock.mockReset();
     sendRegisterVideosRequestMock.mockReset();
     checkIfCompletedMock.mockReset();
     getAllMock.mockReset();
@@ -56,7 +53,7 @@ describe('handler', () => {
     vi.spyOn(console, 'info').mockImplementation(() => undefined);
   });
 
-  it('initializes config, sets loan token, registers new videos, and deletes completed anime', async () => {
+  it('initializes config, registers new videos, and deletes completed anime', async () => {
     // Two animes registered
     getAllMock.mockResolvedValue([
       {
@@ -73,17 +70,10 @@ describe('handler', () => {
       },
     ]);
 
-    // Loan API returns videos for each anime
-    getExistingVideosMock
-      .mockResolvedValueOnce([
-        { episode: 1, videoKey: 'v1' }, // existing
-        { episode: 2, videoKey: 'v2' }, // new for anime 1
-      ])
-      .mockResolvedValueOnce([
-        { episode: 1, videoKey: 'a' },
-        { episode: 2, videoKey: 'b' },
-        { episode: 3, videoKey: 'c' },
-      ]);
+    // Loan API returns episodes for each anime (numbers)
+    getEpisodesMock
+      .mockResolvedValueOnce([1, 2]) // anime 1 has episodes 1 and 2
+      .mockResolvedValueOnce([1, 2, 3]); // anime 2
 
     // Cleanup pass: first anime not completed, second completed
     checkIfCompletedMock
@@ -93,12 +83,12 @@ describe('handler', () => {
     await handler({} as never);
 
     expect(initConfigMock).toHaveBeenCalledTimes(1);
-    expect(setTokenMock).toHaveBeenCalledTimes(1);
-    expect(setTokenMock).toHaveBeenCalledWith('test-token');
 
-    // new videos only includes v2
+    // new videos only includes episode 2 for anime 1
     expect(sendRegisterVideosRequestMock).toHaveBeenCalledTimes(1);
-    expect(sendRegisterVideosRequestMock).toHaveBeenCalledWith([{ episode: 2, videoKey: 'v2' }]);
+    expect(sendRegisterVideosRequestMock).toHaveBeenCalledWith([
+      { myAnimeListId: 1, dub: false, episode: 2 },
+    ]);
 
     expect(checkIfCompletedMock).toHaveBeenCalledTimes(2);
     expect(deleteAnimeMock).toHaveBeenCalledTimes(1);
@@ -117,10 +107,7 @@ describe('handler', () => {
       },
     ]);
 
-    getExistingVideosMock.mockResolvedValueOnce([
-      { episode: 1, videoKey: 'v1' },
-      { episode: 2, videoKey: 'v2' },
-    ]);
+    getEpisodesMock.mockResolvedValueOnce([1, 2]);
 
     checkIfCompletedMock.mockResolvedValueOnce(false);
 
@@ -140,7 +127,7 @@ describe('handler', () => {
       },
     ]);
 
-    getExistingVideosMock.mockResolvedValueOnce([{ episode: 1, videoKey: 'v1' }]);
+    getEpisodesMock.mockResolvedValueOnce([1]);
     checkIfCompletedMock.mockResolvedValueOnce(false);
 
     await handler({} as never);
@@ -152,7 +139,6 @@ describe('handler', () => {
     initConfigMock.mockRejectedValueOnce(new Error('config down'));
 
     await expect(handler({} as never)).rejects.toThrow('config down');
-    expect(setTokenMock).not.toHaveBeenCalled();
   });
 
   it('propagates sendRegisterVideosRequest errors', async () => {
@@ -165,10 +151,7 @@ describe('handler', () => {
       },
     ]);
 
-    getExistingVideosMock.mockResolvedValueOnce([
-      { episode: 1, videoKey: 'v1' },
-      { episode: 2, videoKey: 'v2' }, // new
-    ]);
+    getEpisodesMock.mockResolvedValueOnce([1, 2]); // new
 
     sendRegisterVideosRequestMock.mockRejectedValueOnce(new Error('lambda down'));
     checkIfCompletedMock.mockResolvedValueOnce(false);

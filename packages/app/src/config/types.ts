@@ -3,8 +3,7 @@ interface AniManConfig {
 }
 
 interface LoanApiConfig {
-    token: string;
-    maxConcurrentRequests: number;
+  getEpisodesFunctionName: string;
 }
 
 interface MalApiConfig {

@@ -1,21 +1,25 @@
 ﻿import type { EventBridgeEvent } from 'aws-lambda';
 
 import type { VideoKey } from '../../../../../third-party/common/ts/interfaces';
-import { getExistingVideos, setToken } from '../../../../../third-party/loan-api/src/loan-api-client';
 import { sendRegisterVideosRequest } from '../../api-clients/animan-client';
-import { config, initConfig } from '../../config/config';
+import { getEpisodes } from '../../api-clients/loan-api-client';
+import { initConfig } from '../../config/config';
 import type { AnimeEntity } from '../../models/anime-entity';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
 import { deleteAnime, getAll } from './repository';
 
 const getNewVideos = async (anime: AnimeEntity): Promise<VideoKey[]> => {
-  const loanApiVideos = await getExistingVideos(anime.myAnimeListId, anime.dub);
-  console.log('Loan API videos: ', JSON.stringify(loanApiVideos));
+  const loanApiEpisodes = await getEpisodes(anime.myAnimeListId, anime.dub);
+  console.log('Loan API videos: ', JSON.stringify(loanApiEpisodes));
 
-  const newVideos = loanApiVideos.filter(x => !anime.episodes.has(x.episode));
+  const newVideos = loanApiEpisodes.filter(ep => !anime.episodes.has(ep));
   console.log('New videos: ', JSON.stringify(newVideos));
 
-  return newVideos;
+  return newVideos.map(ep => ({
+    myAnimeListId: anime.myAnimeListId,
+    dub: anime.dub,
+    episode: ep,
+  }));
 }
 
 const registerNewVideos = async (): Promise<void> => {
@@ -61,7 +65,6 @@ const process = async (): Promise<void> => {
 export const handler = async (event: EventBridgeEvent<never, never>): Promise<void> => {
   console.log('Processing event: ', JSON.stringify(event));
   await initConfig();
-  setToken(config.value.loanApiConfig.token);
   await process();
   console.info('done');
 };
