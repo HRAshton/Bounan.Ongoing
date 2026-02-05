@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { sendRegisterVideosRequest } from './animan-client';
 
 // Mock config so importing the module under test doesn't require initConfig().
-vi.mock('../../config/config', () => ({
+vi.mock('../config/config', () => ({
   config: {
     value: {
       animan: {

@@ -29,7 +29,7 @@ vi.mock('../../../../../third-party/loan-api/src/loan-api-client', () => ({
   getExistingVideos: getExistingVideosMock,
 }));
 
-vi.mock('../../api-clients/animan/animan-client', () => ({
+vi.mock('../../api-clients/animan-client', () => ({
   sendRegisterVideosRequest: sendRegisterVideosRequestMock,
 }));
 

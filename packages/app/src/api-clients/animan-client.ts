@@ -1,7 +1,7 @@
 ﻿import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda';
 
-import type { RegisterVideosRequest, VideoKey } from '../../../../../third-party/common/ts/interfaces';
-import { config } from '../../config/config';
+import type { RegisterVideosRequest, VideoKey } from '../../../../third-party/common/ts/interfaces';
+import { config } from '../config/config';
 
 const lambdaClient = new LambdaClient({});
 

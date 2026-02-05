@@ -2,7 +2,7 @@
 
 import type { VideoKey } from '../../../../../third-party/common/ts/interfaces';
 import { getExistingVideos, setToken } from '../../../../../third-party/loan-api/src/loan-api-client';
-import { sendRegisterVideosRequest } from '../../api-clients/animan/animan-client';
+import { sendRegisterVideosRequest } from '../../api-clients/animan-client';
 import { config, initConfig } from '../../config/config';
 import type { AnimeEntity } from '../../models/anime-entity';
 import { checkIfCompleted } from '../../shared/helpers/is-completed';
