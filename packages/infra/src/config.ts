@@ -4,10 +4,10 @@ import { ExportNames } from '../../../third-party/common/ts/cdk/export-names';
 import configFile from './configuration.json';
 
 export interface Config {
-    alertEmail: string;
-    loanApiToken: string;
-    registerVideosFunctionName: string;
-    videoRegisteredTopicArn: string;
+  alertEmail: string;
+  loanApiToken: string;
+  registerVideosFunctionName: string;
+  videoRegisteredTopicArn: string;
 }
 
 const getValue = (key: keyof Config, prefix: string, exportSuffix: ExportNames): string => {

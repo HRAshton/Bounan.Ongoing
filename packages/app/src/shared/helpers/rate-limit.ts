@@ -1,6 +1,6 @@
 export function useRateLimit<TArgs, TResult>(
   callback: (args: TArgs) => TResult | Promise<TResult>,
-  delayBetweenCallsMs: number
+  delayBetweenCallsMs: number,
 ): (args: TArgs) => Promise<TResult> {
   let lastResultTime = 0;
 

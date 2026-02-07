@@ -149,6 +149,6 @@ export class OngoingCdkStack extends cfn.Stack {
 }
 
 enum LambdaHandler {
-    OnVideoRegistered = 'on-video-registered',
-    OnSchedule = 'on-schedule',
+  OnVideoRegistered = 'on-video-registered',
+  OnSchedule = 'on-schedule',
 }

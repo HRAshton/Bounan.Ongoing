@@ -35,7 +35,7 @@ export const checkIfCompleted = async (
   console.log('Observed last episode: ', observedLastEpisode);
 
   const result = expectedLastEpisode <= observedLastEpisode
-        || (expectedLastEpisode === 1 && observedLastEpisode === 0); // Movie or single episode anime.
+    || (expectedLastEpisode === 1 && observedLastEpisode === 0); // Movie or single episode anime.
   console.log('Anime completed check result: ', result);
 
   return result;
