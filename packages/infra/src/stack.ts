@@ -23,6 +23,11 @@ export class OngoingCdkStack extends cfn.Stack {
 
     const config = getConfig('bounan:');
 
+    const loanApiFunction = lambda.Function.fromFunctionAttributes(
+      this, 'LoanApiFunction', {
+        functionArn: config.loanApiFunctionArn,
+        skipPermissions: true,
+      });
     const videoRegisteredTopic = sns.Topic.fromTopicArn(
       this, 'VideoRegisteredSnsTopic', config.videoRegisteredTopicArn);
     const registerVideosLambda = lambda.Function.fromFunctionName(
@@ -31,7 +36,8 @@ export class OngoingCdkStack extends cfn.Stack {
     const table = this.createTable();
     const logGroup = this.createLogGroup();
     const parameter = this.saveParameters(table, config);
-    const functions = this.createLambdas(table, logGroup, registerVideosLambda, videoRegisteredTopic, parameter);
+    const functions = this.createLambdas(
+      table, logGroup, registerVideosLambda, videoRegisteredTopic, loanApiFunction, parameter);
     this.setSchedule(functions[LambdaHandler.OnSchedule]);
     this.setErrorAlarm(logGroup, config);
 
@@ -83,6 +89,7 @@ export class OngoingCdkStack extends cfn.Stack {
     logGroup: logs.LogGroup,
     registerVideosLambda: lambda.IFunction,
     videoRegisteredTopic: sns.ITopic,
+    loanApiFunction: lambda.IFunction,
     parameter: ssm.StringParameter,
   ): Record<LambdaHandler, lambda.Function> {
     // @ts-expect-error - we know that the keys are the same
@@ -98,6 +105,7 @@ export class OngoingCdkStack extends cfn.Stack {
 
       filesTable.grantReadWriteData(func);
       parameter.grantRead(func);
+      loanApiFunction.grantInvoke(func);
 
       functions[handlerName] = func;
     });
