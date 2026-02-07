@@ -125,8 +125,7 @@ export class OngoingCdkStack extends cfn.Stack {
         registerVideosLambdaName: config.registerVideosFunctionName,
       },
       loanApiConfig: {
-        token: config.loanApiToken,
-        maxConcurrentRequests: 2,
+        functionArn: config.loanApiFunctionArn,
       },
       database: {
         tableName: filesTable.tableName,

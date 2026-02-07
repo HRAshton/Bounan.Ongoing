@@ -1,27 +1,27 @@
 interface AniManConfig {
-    registerVideosLambdaName: string;
+  registerVideosLambdaName: string;
 }
 
 interface LoanApiConfig {
-  getEpisodesFunctionName: string;
+  functionArn: string;
 }
 
 interface MalApiConfig {
-    token: string;
+  token: string;
 }
 
 interface DatabaseConfig {
-    tableName: string;
+  tableName: string;
 }
 
 interface ProcessingConfig {
-    outdatedPeriodHours: number;
+  outdatedPeriodHours: number;
 }
 
 export interface Config {
-    animan: AniManConfig;
-    loanApiConfig: LoanApiConfig;
-    malApiConfig: MalApiConfig;
-    database: DatabaseConfig;
-    processing: ProcessingConfig;
+  animan: AniManConfig;
+  loanApiConfig: LoanApiConfig;
+  malApiConfig: MalApiConfig;
+  database: DatabaseConfig;
+  processing: ProcessingConfig;
 }

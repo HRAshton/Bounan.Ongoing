@@ -7,7 +7,7 @@ type GetEpisodesResponse = number[];
 
 const getEpisodesInternal = (myAnimeListId: number, dub: string): Promise<GetEpisodesResponse> => {
   return makeLambdaRequest<GetEpisodesRequest, GetEpisodesResponse>(
-    config.value.loanApiConfig.getEpisodesFunctionName,
+    config.value.loanApiConfig.functionArn,
     { myAnimeListId, dub },
   );
 }

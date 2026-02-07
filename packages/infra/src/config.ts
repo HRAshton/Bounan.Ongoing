@@ -5,7 +5,7 @@ import configFile from './configuration.json';
 
 export interface Config {
   alertEmail: string;
-  loanApiToken: string;
+  loanApiFunctionArn: string;
   registerVideosFunctionName: string;
   videoRegisteredTopicArn: string;
 }
@@ -16,7 +16,7 @@ const getValue = (key: keyof Config, prefix: string, exportSuffix: ExportNames):
 
 export const getConfig = (prefix: string): Config => ({
   alertEmail: getValue('alertEmail', prefix, ExportNames.AlertEmail),
-  loanApiToken: getValue('loanApiToken', prefix, ExportNames.LoanApiToken),
+  loanApiFunctionArn: configFile['loanApiFunctionArn'],
   registerVideosFunctionName: getValue('registerVideosFunctionName', prefix, ExportNames.RegisterVideosFunctionName),
   videoRegisteredTopicArn: getValue('videoRegisteredTopicArn', prefix, ExportNames.VideoRegisteredSnsTopicArn),
 });
